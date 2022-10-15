@@ -29,9 +29,10 @@ def shell(cmd: str):
 
 @app.command()
 def launch_csgo(
-    user: str = typer.Option("%SteamUser%", prompt=True, help="Steam username"),
-    psw: str = typer.Option(
-        "%SteamPass%", prompt=True, hide_input=True, help="Steam password"
+    user: str = typer.Argument("%SteamUser%", help="Steam username"),
+    psw: str = typer.Argument("%SteamPass%", help="Steam password"),
+    steam_install_dir: str = typer.Argument(
+        "C:/Program Files (x86)/Steam/steam.exe", help="Steam install dir"
     ),
 ):
     """
@@ -40,7 +41,7 @@ def launch_csgo(
     user = os.path.expandvars(user)
     psw = os.path.expandvars(psw)
     cmd = [
-        "D:/Program Files (x86)/Steam/steam.exe",
+        steam_install_dir,
         "-noreactlogin",
         "-login",
         user,
