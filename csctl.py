@@ -187,9 +187,17 @@ def launch_csgo(
 
 
 @app.command()
-def open_map(map: str):
+def cs_map(map: str):
     """Open a CS:GO map."""
     con(f"map {map}")
+
+
+@app.command()
+def cs_fix_audio():
+    """Refresh CS:GO audio output device."""
+    con(
+        "incrementvar windows_speaker_config 0 1 1;incrementvar windows_speaker_config 0 1 1"
+    )
 
 
 if __name__ == "__main__":
