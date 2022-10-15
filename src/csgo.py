@@ -1,4 +1,4 @@
-from typer import Typer
+import typer
 from util import init_telnet, listen, run, verify_connection
 
 tn_host = "127.0.0.1"
@@ -6,7 +6,7 @@ tn_port = 2121
 cfg_path = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Counter-Strike Global Offensive\\csgo\\cfg\\"
 
 
-csgo_app = Typer(
+csgo_app = typer.Typer(
     help="Make sure CS:GO is running with this launch option: -netconport "
     + str(tn_port),
     no_args_is_help=True,
@@ -35,6 +35,15 @@ def exec(cmd: str):
 def map(map: str):
     """Open a CS:GO map."""
     exec(f"map {map}")
+
+
+@csgo_app.command()
+def connect(
+    ip: str = typer.Argument(..., help="192.168.0.1:27015"),
+    psw: str = typer.Argument(..., help="password"),
+):
+    """Connect to a CS:GO server."""
+    exec(f"connect {ip}; password {psw}")
 
 
 @csgo_app.command()

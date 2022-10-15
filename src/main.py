@@ -30,7 +30,7 @@ def shell(cmd: str):
 @app.command()
 def launch_csgo(
     user: str = typer.Option("%SteamUser%", prompt=True, help="Steam username"),
-    pwd: str = typer.Option(
+    psw: str = typer.Option(
         "%SteamPass%", prompt=True, hide_input=True, help="Steam password"
     ),
 ):
@@ -38,14 +38,14 @@ def launch_csgo(
     Starts Steam, logs in a user and launches CS:GO.
     """
     user = os.path.expandvars(user)
-    pwd = os.path.expandvars(pwd)
+    psw = os.path.expandvars(psw)
     cmd = [
         "D:/Program Files (x86)/Steam/steam.exe",
         "-noreactlogin",
         "-login",
         user,
         "-pass",
-        pwd,
+        psw,
         "-applaunch",
         "730",
         "-tickrate",
