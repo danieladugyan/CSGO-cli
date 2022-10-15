@@ -161,7 +161,6 @@ def shell(cmd: str):
 def launch_csgo(
     user: str = typer.Argument("%SteamUser%", help="Steam username"),
     pwd: str = typer.Argument("%SteamPass%", help="Steam password"),
-    map: Optional[str] = typer.Argument(None, help="CS:GO map"),
 ):
     """
     Starts Steam, logs in a user and launches CS:GO.
@@ -182,9 +181,6 @@ def launch_csgo(
         "-netconport",
         "2121",
     ]
-
-    if map:
-        cmd = cmd + map.split(" ")
 
     subprocess.run(cmd, shell=True)
     print(subprocess.list2cmdline(cmd))
