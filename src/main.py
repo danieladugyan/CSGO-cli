@@ -36,7 +36,8 @@ def launch_csgo(
     ),
 ):
     """
-    Starts Steam, logs in a user and launches CS:GO.
+    Starts Steam, logs in the user defined in the environment
+    variables and launches CS:GO.
     """
     user = os.path.expandvars(user)
     psw = os.path.expandvars(psw)
@@ -45,7 +46,6 @@ def launch_csgo(
         "-noreactlogin",
         "-login",
         user,
-        "-pass",
         psw,
         "-applaunch",
         "730",
