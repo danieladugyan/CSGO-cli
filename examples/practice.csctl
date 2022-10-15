@@ -1,0 +1,5 @@
+say "Loading Yprac Mirage Practice..."
+echo "Loading Yprac Mirage Practice..."
+delay 1.5
+map workshop\1222094548\yprac_mirage
+delay 1.5
