@@ -55,8 +55,8 @@ def launch_csgo(
         "2121",
     ]
 
-    subprocess.run(cmd, shell=True)
     print(subprocess.list2cmdline(cmd))
+    subprocess.Popen(cmd)
 
 
 if __name__ == "__main__":
