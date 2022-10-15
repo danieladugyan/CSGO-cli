@@ -1,21 +1,11 @@
-import os
-import subprocess
 import sys
 from telnetlib import Telnet
-from typing import Optional
 import psutil
 import signal
 import emoji
 from termcolor import colored
 from time import sleep
 from os import path
-
-import typer
-
-# Config
-tn_host = "127.0.0.1"
-tn_port = 2121
-cfg_path = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Counter-Strike Global Offensive\\csgo\\cfg\\"
 
 
 def await_csgo():
@@ -27,7 +17,7 @@ def await_csgo():
         sleep(10)
 
 
-def init_telnet() -> Telnet:
+def init_telnet(tn_host, tn_port) -> Telnet:
     """Initialize csgo telnet connection"""
     await_csgo()
     print_e(":information: Trying " + tn_host + ":" + str(tn_port) + "...")
@@ -84,8 +74,8 @@ def run(txn, command):
 signal.signal(signal.SIGINT, signal_handler)
 
 
-def listen():
-    tn = init_telnet()
+def listen(tn_host, tn_port, cfg_path):
+    tn = init_telnet(tn_host, tn_port)
     verify_connection(tn)
 
     while True:
@@ -114,91 +104,3 @@ def listen():
             run(tn, "echo File not found: " + str(instr_fname))
 
         print_e(":heavy_check_mark: Instructions complete")
-
-
-app = typer.Typer(
-    help="Make sure you set up CS:GO to receive connections with this launch option: -netconport "
-    + str(tn_port),
-    no_args_is_help=True,
-)
-
-
-@app.command()
-def server():
-    """
-    Interactive session that responds to triggers in-game.
-    """
-    listen()
-
-
-@app.command()
-def con(cmd: str):
-    """
-    Send a single command to the CS:GO client.
-    """
-    tn = init_telnet()
-    verify_connection(tn)
-    run(tn, cmd)
-
-
-@app.command()
-def open_url(url: str):
-    """
-    Open an URL in its default application.
-    """
-    typer.launch(url)
-
-
-@app.command()
-def shell(cmd: str):
-    """
-    Execute a command in the OS's default shell.
-    """
-    subprocess.run(cmd, shell=True)
-
-
-@app.command()
-def launch_csgo(
-    user: str = typer.Argument("%SteamUser%", help="Steam username"),
-    pwd: str = typer.Argument("%SteamPass%", help="Steam password"),
-):
-    """
-    Starts Steam, logs in a user and launches CS:GO.
-    """
-    user = os.path.expandvars(user)
-    pwd = os.path.expandvars(pwd)
-    cmd = [
-        "D:/Program Files (x86)/Steam/steam.exe",
-        "-noreactlogin",
-        "-login",
-        user,
-        "-pass",
-        pwd,
-        "-applaunch",
-        "730",
-        "-tickrate",
-        "128",
-        "-netconport",
-        "2121",
-    ]
-
-    subprocess.run(cmd, shell=True)
-    print(subprocess.list2cmdline(cmd))
-
-
-@app.command()
-def cs_map(map: str):
-    """Open a CS:GO map."""
-    con(f"map {map}")
-
-
-@app.command()
-def cs_fix_audio():
-    """Refresh CS:GO audio output device."""
-    con(
-        "incrementvar windows_speaker_config 0 1 1;incrementvar windows_speaker_config 0 1 1"
-    )
-
-
-if __name__ == "__main__":
-    app()
