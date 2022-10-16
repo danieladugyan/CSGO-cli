@@ -50,6 +50,7 @@ def launch_csgo(
         "-applaunch",
         "730",
         "-novid",
+        "-console",
         "-tickrate",
         "128",
         "-netconport",
