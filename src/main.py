@@ -49,6 +49,7 @@ def launch_csgo(
         psw,
         "-applaunch",
         "730",
+        "-novid",
         "-tickrate",
         "128",
         "-netconport",
